@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Design Gráfico</title>
+  <style>
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f8f5fa;
+      color: #3a015c;
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+    header {
+      background: linear-gradient(90deg, #720026, #ce6cc9);
+      padding: 1.5rem 2rem;
+      text-align: center;
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    header h1 {
+      font-size: 2.5rem;
+      position: relative;
+      display: inline-block;
+      padding-bottom: 0.3rem;
+      border-bottom: 3px solid #ce6cc9;
+    }
+    nav {
+      margin-top: 1rem;
+    }
+    nav a {
+      color: #ffcbf2;
+      margin: 0 1rem;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+    nav a:hover,
+    nav a:focus {
+      color: #e75480;
+      outline: none;
+    }
+    section {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 1rem 1.5rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(114, 0, 38, 0.2);
+    }
+    h2 {
+      color: #720026;
+      margin-bottom: 1rem;
+      border-bottom: 2px solid #ce6cc9;
+      padding-bottom: 0.3rem;
+    }
+    #sobre p {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+    }
+    #portfolio .item {
+      border: 1px solid #ce6cc9;
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      background: #fdf4ff;
+    }
+    #portfolio .item h3 {
+      margin-bottom: 0.5rem;
+    }
+    #blog .comentarios {
+      margin-top: 1rem;
+      border-top: 1px solid #ce6cc9;
+      padding-top: 1rem;
+    }
+    #blog .comentario {
+      border-bottom: 1px solid #e5a4da;
+      padding: 0.5rem 0;
+      opacity: 1;
+      transition: opacity 0.5s ease;
+    }
+    #blog .comentario.novo {
+      animation: fadeIn 0.8s ease-in;
+    }
+    #blog form {
+      margin-top: 1rem;
+    }
+    #blog label {
+      display: block;
+      margin-bottom: 0.3rem;
+      font-weight: 600;
+      color: #720026;
+      font-size: 0.95rem;
+    }
+    #blog input[type=text], #blog textarea {
+      width: 100%;
+      padding: 0.5rem;
+      margin-bottom: 0.7rem;
+      border-radius: 6px;
+      border: 1px solid #ce6cc9;
+      font-size: 1rem;
+      font-family: inherit;
+      resize: vertical;
+    }
+    #blog input[type=text]:focus, #blog textarea:focus {
+      outline: 2px solid #e75480;
+    }
+    #blog button {
+      background: #ce6cc9;
+      border: none;
+      color: white;
+      padding: 0.6rem 1.3rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+      font-family: inherit;
+    }
+    #blog button:hover,
+    #blog button:focus {
+      background: #a84c8e;
+      outline: none;
+    }
+    button.limpar {
+      margin-top: 0.5rem;
+      background-color: #720026;
+    }
+    button.limpar:hover,
+    button.limpar:focus {
+      background-color: #a12b4a;
+      outline: none;
+    }
+    footer {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      background: #720026;
+      color: white;
+      margin-top: 3rem;
+    }
+    .fade-in {
+      animation: fadeIn 0.8s ease-in;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .resposta-correta {
+      background-color: #d4f8e8;
+    }
+    .resposta-errada {
+      background-color: #ffe0e0;
+    }
+
+    /* Botão voltar ao topo */
+    #btnTopo {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #720026;
+      color: white;
+      border: none;
+      padding: 0.7rem 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      opacity: 0.7;
+      transition: opacity 0.3s ease;
+      z-index: 110;
+      font-family: inherit;
+      display: none; /* inicialmente escondido */
+    }
+    #btnTopo:hover,
+    #btnTopo:focus {
+      opacity: 1;
+      outline: none;
+      background: #a12b4a;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.8rem;
+      }
+      nav a {
+        margin: 0 0.5rem;
+        font-size: 0.9rem;
+      }
+    }
+
+    /* Mensagem sucesso */
+    #msgSucesso {
+      margin-top: 0.5rem;
+      color: #2b7a0b;
+      font-weight: 600;
+      font-size: 1rem;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Design Gráfico</h1>
+  <nav aria-label="Navegação principal">
+    <a href="#sobre">Sobre</a>
+    <a href="#portfolio">Portfólio</a>
+    <a href="#blog">Blog</a>
+  </nav>
+</header>
+
+<section id="sobre" class="fade-in" tabindex="0" aria-label="Seção sobre design gráfico">
+  <h2>Sobre Design Gráfico</h2>
+  <p>Design gráfico é a arte e prática de planejar e projetar ideias e experiências com conteúdo visual e textual. Combinando criatividade e técnica, o design gráfico ajuda empresas e indivíduos a comunicar mensagens de forma clara, atraente e eficaz.</p>
+  <p>O design gráfico é essencial para criar materiais visuais, como relatórios, apresentações, infográficos e promoções que tornam informações complexas mais acessíveis e compreensíveis.</p>
+</section>
+
+<section id="portfolio" class="fade-in" tabindex="0" aria-label="Seção de portfólio de design">
+  <h2>Portfólio</h2>
+  <div class="item">
+    <h3>Infográfico</h3>
+    <p>Criação de infográficos para ilustrar dados complexos de forma simples e visualmente atraente.</p>
+  </div>
+  <div class="item">
+    <h3>Branding para Empresa</h3>
+    <p>Desenvolvimento de identidade visual para empresas, com logo, paleta de cores e materiais de marketing.</p>
+  </div>
+  <div class="item">
+    <h3>Apresentação Corporativa</h3>
+    <p>Design de slides para apresentações, focando em clareza, impacto visual e profissionalismo.</p>
+  </div>
+</section>
+
+<section id="blog" class="fade-in" tabindex="0" aria-label="Blog e comentários">
+  <h2>Blog & Comentários</h2>
+  <article>
+    <h3>Como o Design Gráfico Impacta a Comunicação</h3>
+    <p>O design gráfico facilita a compreensão de informações através de gráficos, diagramas e layouts eficazes, ajudando a comunicar melhor as mensagens.</p>
+  </article>
+  <div class="comentarios" id="comentarios" aria-live="polite" aria-relevant="additions">
+    <h4>Comentários</h4>
+  </div>
+  <form id="comentario_form" aria-label="Formulário para enviar comentário" novalidate>
+    <label for="nome_coment">Seu nome:</label>
+    <input type="text" id="nome_coment" placeholder="Seu nome" required aria-label="Seu nome" minlength="3" />
+    
+    <label for="texto_coment">Seu comentário:</label>
+    <textarea id="texto_coment" rows="3" placeholder="Seu comentário" required aria-label="Seu comentário" minlength="10"></textarea>
+    
+    <button type="submit" id="btnEnviar">Enviar Comentário</button>
+  </form>
+  <div id="msgSucesso" role="alert" aria-live="assertive">Comentário enviado com sucesso!</div>
+  <button class="limpar" id="limpar_comentarios" aria-label="Limpar todos os comentários" title="Limpar todos os comentários">Limpar Comentários</button>
+</section>
+
+<footer>
+  &copy; 2025 Design Gráfico. Todos os direitos reservados.<br />
+  <span style="font-style: italic; font-size: 0.9rem; color: #ffcbf2;">
+    Feito por <strong>Grupo de Finanças do 1º Ano D</strong>
+  </span>
+</footer>
+
+<button id="btnTopo" aria-label="Voltar ao topo">Topo</button>
+
+<script>
+  const formComent = document.getElementById('comentario_form');
+  const divComentarios = document.getElementById('comentarios');
+  const btnLimpar = document.getElementById('limpar_comentarios');
+  const btnTopo = document.getElementById('btnTopo');
+  const msgSucesso = document.getElementById('msgSucesso');
+  const btnEnviar = document.getElementById('btnEnviar');
+
+  function criarComentarioElemento(c, isNew = false) {
+    let div = document.createElement('div');
+    div.classList.add('comentario');
+    if(isNew) div.classList.add('novo');
+    div.innerHTML = `<strong>${escapeHtml(c.nome)}:</strong> <p>${escapeHtml(c.texto)}</p>`;
+    return div;
+  }
+
+  function carregarComentarios() {
+    let comentarios = JSON.parse(localStorage.getItem('comentarios')) || [];
+    divComentarios.innerHTML = '<h4>Comentários</h4>';
+    comentarios.forEach(c => {
+      divComentarios.appendChild(criarComentarioElemento(c));
+    });
+  }
+
+  function escapeHtml(text) {
+    // Evita XSS básico escapando caracteres especiais
+    return text.replace(/[&<>"']/g, function(m) {
+      return {'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'}[m];
+    });
+  }
+
+  formComent.addEventListener('submit', e => {
+    e.preventDefault();
+    const nome = document.getElementById('nome_coment').value.trim();
+    const texto = document.getElementById('texto_coment').value.trim();
+
+    // Validação mínima extra
+    if(nome.length < 3) {
+      alert('Por favor, insira pelo menos 3 caracteres no nome.');
+      document.getElementById('nome_coment').focus();
+      return;
+    }
+    if(texto.length < 10) {
+      alert('Por favor, insira pelo menos 10 caracteres no comentário.');
+      document.getElementById('texto_coment').focus();
+      return;
+    }
+
+    btnEnviar.disabled = true; // desabilita botão para evitar múltiplos cliques
+
+    if(nome && texto){
+      let comentarios = JSON.parse(localStorage.getItem('comentarios')) || [];
+      const novoComentario = {nome, texto};
+      comentarios.push(novoComentario);
+      localStorage.setItem('comentarios', JSON.stringify(comentarios));
+
+      // Adiciona só o comentário novo para melhor performance e animação
+      divComentarios.appendChild(criarComentarioElemento(novoComentario, true));
+
+      // Remove a classe 'novo' após a animação para evitar acumular
+      setTimeout(() => {
+        const ultimo = divComentarios.lastElementChild;
+        if(ultimo) ultimo.classList.remove('novo');
+      }, 900);
+
+      formComent.reset();
+      formComent.querySelector('input').focus();
+
+      // Mostrar mensagem sucesso
+      msgSucesso.style.display = 'block';
+      setTimeout(() => {
+        msgSucesso.style.display = 'none';
+      }, 3500);
+
+      btnEnviar.disabled = false;
+    } else {
+      btnEnviar.disabled = false;
+    }
+  });
+
+  btnLimpar.addEventListener('click', () => {
+    if(confirm('Deseja realmente limpar todos os comentários?')) {
+      localStorage.removeItem('comentarios');
+      carregarComentarios();
+      formComent.querySelector('input').focus();
+    }
+  });
+
+  carregarComentarios();
+
+  // Botão voltar ao topo
+  btnTopo.addEventListener('click', () => {
+    window.scrollTo({top: 0, behavior: 'smooth'});
+    btnTopo.blur();
+  });
+
+  // Mostrar/ocultar botão topo conforme scroll
+  window.addEventListener('scroll', () => {
+    if(window.scrollY > 200) { // Ajustado para 200px
+      btnTopo.style.display = 'block';
+    } else {
+      btnTopo.style.display = 'none';
+    }
+  });
+
+</script>
+</body>
+</html><!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Design Gráfico - Quiz</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f8f5fa;
+      color: #3a015c;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+    }
+    header, footer {
+      background: #720026;
+      color: white;
+      padding: 1.5rem 2rem;
+      text-align: center;
+    }
+    nav a {
+      color: #ffcbf2;
+      margin: 0 1rem;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    section {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 1rem 2rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(114, 0, 38, 0.2);
+    }
+    h2 {
+      color: #720026;
+      border-bottom: 2px solid #ce6cc9;
+      padding-bottom: 0.3rem;
+      margin-top: 0;
+    }
+    ol {
+      padding-left: 1.2rem;
+    }
+    li {
+      margin-bottom: 1.5rem;
+    }
+    label {
+      cursor: pointer;
+      display: block;
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      transition: background-color 0.3s ease;
+    }
+    label:hover {
+      background-color: #f0d4f2;
+    }
+    button {
+      background: #ce6cc9;
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background: #a84c8e;
+    }
+    .resposta-correta label {
+      background-color: #d4f8e8 !important;
+    }
+    .resposta-errada label {
+      background-color: #ffe0e0 !important;
+    }
+    .explicacao {
+      font-size: 0.9rem;
+      color: #333;
+      margin-top: 0.3rem;
+      font-style: italic;
+      padding-left: 0.6rem;
+    }
+    button.refazer {
+      background-color: #720026;
+      color: white;
+      margin: 1.5rem auto 0;
+      display: block;
+      padding: 0.8rem 2rem;
+      font-size: 1.1rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(114, 0, 38, 0.3);
+      cursor: pointer;
+      border: none;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    button.refazer:hover {
+      background-color: #a12b4a;
+      box-shadow: 0 6px 12px rgba(161, 43, 74, 0.6);
+    }
+    #quiz_result p {
+      margin: 0.5rem 0;
+      font-weight: bold;
+      text-align: center;
+    }
+    @media (max-width: 600px) {
+      section {
+        margin: 1rem;
+        padding: 1rem;
+      }
+      button, label {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Design Gráfico</h1>
+  <nav>
+    <a href="#perguntas">Quiz</a>
+  </nav>
+</header>
+
+<section id="perguntas">
+  <h2>Teste seus conhecimentos sobre Design Gráfico e Logotipo</h2>
+  <form id="quiz_form">
+    <ol>
+      <li>
+        <label>1. O que é design gráfico?</label><br />
+        <label><input type="radio" name="q1" value="a" required /> a) Criação de códigos para sites</label>
+        <label><input type="radio" name="q1" value="b" /> b) Arte de criar imagens e layouts para comunicar ideias</label>
+        <label><input type="radio" name="q1" value="c" /> c) Escrita de textos técnicos</label>
+        <div class="explicacao" data-q="q1"></div>
+      </li>
+      <li>
+        <label>2. Para que serve o design gráfico nas finanças?</label><br />
+        <label><input type="radio" name="q2" value="a" required /> a) Para criar relatórios visuais que facilitam a compreensão dos dados</label>
+        <label><input type="radio" name="q2" value="b" /> b) Para calcular investimentos</label>
+        <label><input type="radio" name="q2" value="c" /> c) Para guardar dinheiro</label>
+        <div class="explicacao" data-q="q2"></div>
+      </li>
+      <li>
+        <label>3. Qual cor não foi usada no site?</label><br />
+        <label><input type="radio" name="q3" value="a" required /> a) Roxo</label>
+        <label><input type="radio" name="q3" value="b" /> b) Verde</label>
+        <label><input type="radio" name="q3" value="c" /> c) Rosa</label>
+        <div class="explicacao" data-q="q3"></div>
+      </li>
+      <li>
+        <label>4. O que são infográficos?</label><br />
+        <label><input type="radio" name="q4" value="a" required /> a) Gráficos e imagens que explicam dados visualmente</label>
+        <label><input type="radio" name="q4" value="b" /> b) Textos longos para relatórios</label>
+        <label><input type="radio" name="q4" value="c" /> c) Planilhas financeiras</label>
+        <div class="explicacao" data-q="q4"></div>
+      </li>
+      <li>
+        <label>5. Qual é o foco do design gráfico em apresentações corporativas?</label><br />
+        <label><input type="radio" name="q5" value="a" required /> a) Clareza, impacto visual e profissionalismo</label>
+        <label><input type="radio" name="q5" value="b" /> b) Uso de muitas cores e animações</label>
+        <label><input type="radio" name="q5" value="c" /> c) Apenas texto sem imagens</label>
+        <div class="explicacao" data-q="q5"></div>
+      </li>
+      <li>
+        <label>6. O que é um logotipo?</label><br />
+        <label><input type="radio" name="q6" value="a" required /> a) Uma música de fundo da empresa</label>
+        <label><input type="radio" name="q6" value="b" /> b) Um símbolo gráfico que representa uma marca</label>
+        <label><input type="radio" name="q6" value="c" /> c) Uma assinatura do fundador</label>
+        <div class="explicacao" data-q="q6"></div>
+      </li>
+      <li>
+        <label>7. Qual é a função principal de um logotipo?</label><br />
+        <label><input type="radio" name="q7" value="a" required /> a) Enfeitar panfletos</label>
+        <label><input type="radio" name="q7" value="b" /> b) Identificar e diferenciar uma marca</label>
+        <label><input type="radio" name="q7" value="c" /> c) Substituir o nome da empresa</label>
+        <div class="explicacao" data-q="q7"></div>
+      </li>
+      <li>
+        <label>8. Um bom logotipo deve ser:</label><br />
+        <label><input type="radio" name="q8" value="a" required /> a) Confuso e cheio de detalhes</label>
+        <label><input type="radio" name="q8" value="b" /> b) Simples, memorável e versátil</label>
+        <label><input type="radio" name="q8" value="c" /> c) Apenas colorido</label>
+        <div class="explicacao" data-q="q8"></div>
+      </li>
+      <li>
+        <label>9. Qual desses elementos pode compor um logotipo?</label><br />
+        <label><input type="radio" name="q9" value="a" required /> a) Apenas texto</label>
+        <label><input type="radio" name="q9" value="b" /> b) Texto, símbolo ou ambos</label>
+        <label><input type="radio" name="q9" value="c" /> c) Apenas imagens realistas</label>
+        <div class="explicacao" data-q="q9"></div>
+      </li>
+      <li>
+        <label>10. O logotipo ajuda na:</label><br />
+        <label><input type="radio" name="q10" value="a" required /> a) Organização de arquivos</label>
+        <label><input type="radio" name="q10" value="b" /> b) Comunicação da identidade da marca</label>
+        <label><input type="radio" name="q10" value="c" /> c) Contratação de funcionários</label>
+        <div class="explicacao" data-q="q10"></div>
+      </li>
+    </ol>
+    <button type="submit">Enviar Respostas</button>
+  </form>
+  <div id="quiz_result"></div>
+</section>
+
+<footer>
+  <p>© 2025 Design Gráfico Quiz</p>
+</footer>
+
+<script>
+  const quizForm = document.getElementById('quiz_form');
+  const quizResult = document.getElementById('quiz_result');
+
+  const respostasCorretas = {
+    q1: 'b', q2: 'a', q3: 'b', q4: 'a', q5: 'a',
+    q6: 'b', q7: 'b', q8: 'b', q9: 'b', q10: 'b'
+  };
+
+  const explicacoes = {
+    q1: "Design gráfico é a arte de comunicar visualmente, não programação.",
+    q2: "Ajuda a tornar dados financeiros mais compreensíveis.",
+    q3: "Verde não foi utilizado nas cores do site.",
+    q4: "Infográficos combinam texto e imagem para facilitar o entendimento.",
+    q5: "O objetivo é comunicar com clareza e profissionalismo.",
+    q6: "Um logotipo é a representação gráfica da marca.",
+    q7: "A principal função é diferenciar e identificar a marca.",
+    q8: "Logotipos simples são mais fáceis de lembrar e usar.",
+    q9: "Pode conter texto, símbolo ou ambos.",
+    q10: "Comunica a identidade e valores da marca ao público."
+  };
+
+  quizForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    let pontos = 0;
+    const perguntas = quizForm.querySelectorAll("li");
+
+    // Limpar marcações anteriores
+    perguntas.forEach(li => {
+      li.classList.remove('resposta-correta', 'resposta-errada');
+      li.querySelectorAll('label').forEach(label => {
+        label.style.backgroundColor = 'transparent';
+      });
+      li.querySelector('.explicacao').textContent = "";
+    });
+
+    for (let i = 1; i <= 10; i++) {
+      const name = 'q' + i;
+      const resposta = quizForm[name].value;
+      const li = perguntas[i - 1];
+      const explicacao = li.querySelector(`.explicacao[data-q="${name}"]`);
+
+      li.querySelectorAll('input[type="radio"]').forEach(input => {
+        const label = input.parentElement;
+        if (input.value === respostasCorretas[name]) {
+          label.style.backgroundColor = '#d4f8e8'; // alternativa correta
+        }
+        if (input.checked) {
+          if (input.value === respostasCorretas[name]) {
+            label.style.backgroundColor = '#a3e9cd'; // correta escolhida
+          } else {
+            label.style.backgroundColor = '#ffb3b3'; // errada escolhida
+          }
+        }
+      });
+
+      if (resposta === respostasCorretas[name]) {
+        li.classList.add('resposta-correta');
+        pontos++;
+        explicacao.textContent = "Correto: " + explicacoes[name];
+      } else {
+        li.classList.add('resposta-errada');
+        explicacao.textContent = "Errado: " + explicacoes[name];
+      }
+    }
+
+    quizResult.innerHTML = `<p>Você acertou ${pontos} de 10 perguntas.</p>`;
+    if (pontos === 10) {
+      quizResult.innerHTML += "<p>Excelente! Você domina o assunto.</p>";
+    } else if (pontos >= 7) {
+      quizResult.innerHTML += "<p>Muito bem! Você tem um bom conhecimento.</p>";
+    } else {
+      quizResult.innerHTML += "<p>Revise o conteúdo e tente novamente.</p>";
+    }
+
+    if (!document.getElementById("btnRefazer")) {
+      const refazerBtn = document.createElement("button");
+      refazerBtn.textContent = "Refazer";
+      refazerBtn.className = "refazer";
+      refazerBtn.id = "btnRefazer";
+      refazerBtn.addEventListener("click", () => {
+        quizForm.reset();
+        quizResult.innerHTML = "";
+        perguntas.forEach(li => {
+          li.classList.remove('resposta-correta', 'resposta-errada');
+          li.querySelector('.explicacao').textContent = "";
+          li.querySelectorAll('label').forEach(label => {
+            label.style.backgroundColor = 'transparent';
+          });
+        });
+      });
+      quizResult.appendChild(refazerBtn);
+    }
+  });
+</script>
+
+</body>
+</html>
